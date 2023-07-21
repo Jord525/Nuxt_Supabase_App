@@ -9,12 +9,6 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  nitro: {
-    prerender: {
-      crawlLinks: false,
-      routes: ["/"],
-    },
-  },
   runtimeConfig: {
     public: {
       supabase_name: process.env.SUPABASE_NAME,
