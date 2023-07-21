@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   app: {
-    baseURL: "/localhost",
     pageTransition: { name: "page", mode: "out-in" },
     head: {
       charset: "utf-8",
