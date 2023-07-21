@@ -7,11 +7,7 @@ const formattedDate = computed(() => {
     "." +
     ("0" + (date_object.getMonth() + 1)).slice(-2) +
     "." +
-    ("0" + date_object.getDate()).slice(-2) +
-    " " +
-    ("0" + date_object.getHours()).slice(-2) +
-    ":" +
-    ("0" + date_object.getMinutes()).slice(-2);
+    ("0" + date_object.getDate()).slice(-2);
   return formatted_date;
 });
 </script>
@@ -20,6 +16,6 @@ const formattedDate = computed(() => {
     ref="td"
     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
   >
-    {{ formattedDate }}
+    {{ props.dateString }}
   </td>
 </template>

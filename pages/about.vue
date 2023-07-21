@@ -4,7 +4,7 @@ import Paginate from "vuejs-paginate-next";
 definePageMeta({
   middleware: "auth",
 });
-type searchBy = {
+type TsearchBy = {
   byDefault: string;
   name: string;
   model: string;
@@ -17,7 +17,7 @@ const sort = ref<number>(1);
 const search = ref<string>("");
 const searchParams = ref<string>("");
 const sortSearch = ref<string>("По-умолчанию");
-const searchBy = ref<searchBy>({
+const searchBy = ref<TsearchBy>({
   byDefault: "По-умолчанию",
   name: "Имя",
   model: "Модель",
@@ -82,29 +82,35 @@ onMounted(() => {
           data-dropdown-toggle="dropdown-states"
           class="flex-shrink-0 ml-5 h-10 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
         >
-          <option v-for="a in searchBy">
-            {{ a }}
+          <option v-for="value in searchBy">
+            {{ value }}
           </option>
         </select>
 
         <input
+          v-if="printers.value?.page === 1"
           v-model="search"
           @keyup.enter="getAll()"
           placeholder="поиск"
           id="states"
           class="bg-gray-50 border h-10 border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
+        <div class="text-gray-500 flex items-center" v-else>
+          Поиск доступен только на первой странице
+        </div>
       </div>
     </div>
     <div class="overflow-x-auto">
       <div class="min-w-full inline-block align-middle">
         <div class="overflow-auto" style="height: 74vh">
           <table
+            v-if="printers"
             class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
           >
             <TableHead />
             <Tbody :getPrinters="getAll" :printers="printers" />
           </table>
+          <Loader class="m-auto" v-else />
         </div>
         <paginate
           :page-count="+printers.value?.totalPage"

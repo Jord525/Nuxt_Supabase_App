@@ -9,6 +9,11 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      supabase_name: process.env.SUPABASE_NAME,
+    },
+  },
   modules: ["@nuxtjs/supabase"],
   postcss: {
     plugins: {

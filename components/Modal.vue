@@ -5,10 +5,6 @@
   </Transition>
 </template>
 <style>
-/*
-  Enter and leave animations can use different
-  durations and timing functions.
-*/
 .slide-fade-enter-active {
   transition: all 0.5s ease-out;
 }

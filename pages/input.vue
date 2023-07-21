@@ -2,6 +2,8 @@
 definePageMeta({
   middleware: "auth",
 });
+const nuxtApp = useRuntimeConfig();
+const { supabase_name } = nuxtApp.public;
 const supabase = useSupabaseClient();
 const allValue = ref({
   name: "",
@@ -12,13 +14,14 @@ const allValue = ref({
   date: "",
   printer_number: "",
   prim: "",
+  data_reg: "",
 });
 const successMsg = ref("");
 const errorMsg = ref("");
 
 async function addNewData(value) {
   try {
-    const { error } = await supabase.from("printer_table").insert({
+    const { error } = await supabase.from(supabase_name).insert({
       name: value.name,
       model_name: value.model_Name,
       number_printer: value.printer_number,
@@ -26,6 +29,7 @@ async function addNewData(value) {
       amount: value.amount,
       date_payment: value.date,
       phone_number: value.phone_Number,
+      inserted_at: value.data_reg,
       note: value.prim,
     });
     if (error) throw error;
@@ -85,7 +89,7 @@ function delayErroeMsg() {
         />
         <label
           for="floating_name"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-6 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >Имя</label
         >
       </div>
@@ -163,6 +167,22 @@ function delayErroeMsg() {
           for="floating_date"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >Дата оплаты</label
+        >
+      </div>
+      <div class="relative z-0 w-11/12 mb-6 group">
+        <input
+          v-model="allValue.data_reg"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          type="date"
+          name="date_ref"
+          id="date_ref"
+        />
+
+        <label
+          for="date_ref"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >Дата регистрации</label
         >
       </div>
       <div class="relative z-0 w-11/12 mb-6 group">

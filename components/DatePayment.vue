@@ -1,16 +1,33 @@
 <script setup>
 const props = defineProps(["printer"]);
 const supabase = useSupabaseClient();
-const td = ref([]);
+const errorMsg = ref("");
 
 async function updataDatePayment(date) {
   const { error } = await supabase
-    .from("printer_table")
+    .from(process.env.SUPABASE_NAME)
     .update({ date_payment: date.date_payment })
     .eq("id", date.id);
+  if (error) {
+    errorMsg.value = "Введите дату правильно";
+    throw error.message;
+  } else errorMsg.value = "";
+}
+function delayErroeMsg() {
+  setTimeout(() => {
+    errorMsg.value = "";
+  }, 2000);
 }
 </script>
 <template>
+  <Modal>
+    <div
+      v-if="errorMsg"
+      class="border-2 opacity-60 bg-black flex items-center justify-center absolute text-center rounded-md ml-4 border-sky-900 w-56"
+    >
+      <span class="text-red-500">{{ errorMsg }} {{ delayErroeMsg() }} </span>
+    </div>
+  </Modal>
   <input
     v-model="printer.date_payment"
     @keyup.enter="updataDatePayment(printer)"

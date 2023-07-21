@@ -1,5 +1,4 @@
 <script setup>
-const user = useSupabaseUser();
 const client = useSupabaseAuthClient();
 const router = useRouter();
 async function logout() {

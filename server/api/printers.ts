@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const toBool = Boolean(toNumber);
   const { from, to } = getPagination(Number(page!) - Number(1), 8);
   const { data, count } = await supabase
-    .from("printer_table")
+    .from(process.env.SUPABASE_NAME as string)
     .select("*", { count: "exact" })
     .textSearch(searchParams as string, search as string)
     .order("id", { ascending: toBool })

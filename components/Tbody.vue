@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const nuxtApp = useRuntimeConfig();
+const { supabase_name } = nuxtApp.public;
 type printers = {
   id: number;
   amount: number;
@@ -13,24 +15,23 @@ type printers = {
 const props = defineProps(["printers", "getPrinters"]);
 const supabase = useSupabaseClient();
 const tr = ref<Array<HTMLElement>>([]);
+const tbody = ref<Array<HTMLElement>>([]);
 const td = ref<Array<HTMLElement>>([]);
-console.log(props.printers.value);
 
 async function deletePrinter(value: printers, i: number) {
   const { error } = await supabase
-    .from("printer_table")
+    .from(supabase_name as string)
     .delete()
     .eq("id", value.id);
-  tr.value[i].classList.add("transition", "duration-700", "scale-0");
-  tr.value[i].classList.remove("border");
-  setTimeout(props.getPrinters, 700);
+  props.getPrinters();
 }
 </script>
 <template>
   <tbody
+    ref="tbody"
     v-for="(printer, index) in props.printers.value?.data"
     :key="printer.id"
-    class="transition duration-700 divide-y divide-gray-200 dark:divide-gray-700"
+    class="transition duration-700 translate-x-0 divide-y divide-gray-200 dark:divide-gray-700"
   >
     <tr ref="tr" class="border">
       <td
