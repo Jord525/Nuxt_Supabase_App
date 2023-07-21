@@ -25,6 +25,9 @@ async function deletePrinter(value: printers, i: number) {
     .eq("id", value.id);
   props.getPrinters();
 }
+onMounted(() => {
+  props.getPrinters();
+});
 </script>
 <template>
   <tbody
