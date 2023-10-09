@@ -11,6 +11,7 @@ type TsearchBy = {
   note: string;
   phone: string;
 };
+type PrintersType = [];
 const printers = ref("");
 const page = ref<number>(1);
 const sort = ref<number>(1);
@@ -35,21 +36,23 @@ async function getAll() {
 async function pageNumber(pageNum: number) {
   (page.value = pageNum), getAll();
 }
-function selectColumnSearch() {
-  if (sortSearch.value === "Имя") {
-    searchParams.value = "name";
-  } else if (sortSearch.value === "Модель") {
-    searchParams.value = "model_name";
-  } else if (sortSearch.value === "Примечание") {
-    searchParams.value = "note";
-  } else if (sortSearch.value === "Номер") {
-    searchParams.value = "number_printer";
-  } else if (sortSearch.value === "По-умолчанию") {
-    searchParams.value = "";
+function selectColumnSearch(): void {
+  const searchMap: { [key: string]: string } = {
+    Имя: "name",
+    Модель: "model_name",
+    Примечание: "note",
+    Номер: "number_printer",
+    "По-умолчанию": "",
+  };
+
+  searchParams.value = searchMap[sortSearch.value];
+
+  if (sortSearch.value === "По-умолчанию") {
     search.value = "";
     getAll();
   }
 }
+
 function updateSelectedOption(value: string) {
   const select = (selectedOption.value = value);
   if (select === "Я-А") {
